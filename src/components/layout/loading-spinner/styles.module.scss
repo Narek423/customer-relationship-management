@@ -1,0 +1,8 @@
+.loading_container {
+  @apply flex min-h-screen w-full items-center justify-center;
+
+  .loading_spinner {
+    @apply h-14 w-14 animate-spin rounded-full 
+     border-r-4 border-b-4  border-b-theme-accent-blue  border-r-theme-accent-blue;
+  }
+}

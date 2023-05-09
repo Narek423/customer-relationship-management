@@ -1,0 +1,17 @@
+.container {
+	@apply relative my-[1.5px] flex;
+
+	::placeholder {
+		@apply pl-6 font-poppins text-theme-gray;
+	}
+
+	.input_gray {
+		@apply h-[2.5rem] w-full p-8 focus:border-theme-table-gray focus:outline-none focus:ring-1;
+	}
+	.input {
+		@apply h-[2.5rem] w-full p-8 pl-12 focus:border-theme-table-gray focus:outline-none focus:ring-1;
+	}
+	.search_img {
+		@apply absolute mt-6 ml-4;
+	}
+}

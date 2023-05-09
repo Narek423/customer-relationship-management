@@ -1,0 +1,11 @@
+.charts_line {
+  @apply flex w-fit flex-col rounded bg-white shadow-[0px_6px_18px_rgba(0,0,0,0.06)];
+
+  .status_items {
+    @apply ml-7 mt-4 flex items-center stroke-theme-accent-blue;
+
+    .status_items_text {
+      @apply ml-2 mb-1 text-sm font-normal leading-4 text-theme-dark-blue-text;
+    }
+  }
+}

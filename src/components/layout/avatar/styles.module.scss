@@ -1,0 +1,21 @@
+.avatar_container {
+  @apply flex w-24;
+  .img {
+    @apply h-[4rem] w-[4rem] rounded-full;
+  }
+  .edit {
+    @apply relative top-[2.7rem] left-[-1.1rem] flex h-[1.3rem] w-[1.3rem]  cursor-pointer items-center justify-center rounded-full bg-white shadow-[#E5E5E5] drop-shadow-md;
+  }
+  .image_name {
+    @apply relative left-[-1.1rem] bottom-[-1.4rem] h-[1.3rem] w-[1.3rem]   rounded-full opacity-0;
+  }
+}
+.avatar_container {
+  @apply flex w-24;
+  .img {
+    @apply h-[4rem] w-[4rem] rounded-full;
+  }
+  .edit {
+    @apply relative top-[2.7rem] left-[-1.1rem] flex h-[1.3rem] w-[1.3rem] cursor-pointer items-center justify-center rounded-full bg-white shadow-[#E5E5E5] drop-shadow-md;
+  }
+}

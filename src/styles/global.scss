@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./fonts.scss";
+
+:root {
+  --theme-purple: 136 90 248;
+  --theme-accent-blue: 16 156 241;
+  --theme-accent-blue-light: 52 175 249;
+  --theme-accent-blue-dark: 9 142 223;
+  --theme-yellow: 255 185 70;
+  --theme-red: 247 104 91;
+  --theme-green: 46 212 122;
+  --theme-black: 25 42 62;
+  --theme-dark-blue-text: 51 77 110;
+  --theme-table-black: 50 60 71;
+  --theme-gray: 144 160 183;
+  --theme-table-gray: 112 118 131;
+  --theme-icon-gray: 194 207 224;
+  --theme-white: 255 255 255;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  bottom: 100px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(210, 233, 247);
+  border-radius: 100px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(157, 200, 227);
+  border-radius: 100px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(110, 193, 245);
+}

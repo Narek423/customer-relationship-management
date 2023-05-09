@@ -1,0 +1,35 @@
+.purple,
+.green,
+.red,
+.yellow,
+.dark,
+.light_gray {
+  @apply flex h-[1.35rem] w-[5.25rem] select-none items-center  justify-center rounded font-poppins text-[0.8rem] text-white;
+}
+
+.purple {
+  @apply bg-theme-purple;
+}
+
+.green {
+  @apply bg-theme-green;
+}
+
+.red {
+  @apply bg-theme-red;
+}
+
+.yellow {
+  @apply bg-theme-yellow;
+}
+
+.dark {
+  @apply bg-theme-dark-blue-text;
+}
+
+.light_gray {
+  @apply bg-theme-table-gray;
+}
+.white {
+  @apply bg-theme-white;
+}

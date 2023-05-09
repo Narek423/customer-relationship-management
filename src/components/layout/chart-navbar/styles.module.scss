@@ -1,0 +1,24 @@
+.container_main {
+	@apply flex h-12 w-full items-center justify-between border-b border-[#EBEFF2] px-7 py-6;
+
+	span {
+		@apply text-[#6A707E];
+	}
+
+	.title_text {
+		@apply text-base font-medium leading-6 text-theme-black;
+	}
+
+	.title_date {
+		@apply flex cursor-pointer items-center;
+
+		.title_date_btn,
+		.add_item_btn {
+			@apply ml-2 flex text-sm text-theme-accent-blue;
+		}
+
+		.down_arrow {
+			@apply my-auto ml-2 mt-3 flex w-2;
+		}
+	}
+}

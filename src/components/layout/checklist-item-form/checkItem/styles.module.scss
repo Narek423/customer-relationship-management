@@ -1,0 +1,63 @@
+.container {
+  @apply mt-3 flex h-28 w-full cursor-pointer flex-col justify-between 
+	 p-4 shadow-[0px_2px_10px_rgba(0,0,0,0.08)];
+
+  .title_container {
+    @apply flex justify-between;
+
+    .title {
+      @apply flex text-base font-medium leading-5 text-theme-dark-blue-text;
+    }
+
+    .type {
+      @apply text-xs font-medium text-theme-gray;
+    }
+  }
+  .due_date {
+    @apply flex items-center text-sm font-normal text-[#4C5862];
+
+    > span {
+      @apply mr-2 flex items-center text-[#4C5862] opacity-50;
+    }
+  }
+
+  .avatar_idicator_container {
+    @apply -mb-2 flex items-center justify-between;
+
+    .avatar_name {
+      @apply flex items-center text-sm font-normal text-theme-table-gray;
+
+      .avatar {
+        @apply mr-2 w-8 rounded-full;
+      }
+    }
+  }
+
+  .indicatorc_main_container {
+    @apply flex items-center gap-2;
+
+    .indicator_container {
+      @apply mr-3 flex gap-2;
+    }
+
+    .edit_recycle_icon {
+      @apply hidden;
+    }
+  }
+}
+
+.container:hover .edit_recycle_icon {
+  @apply mr-3 flex items-center gap-2;
+}
+
+.container:hover .ellipse_yellow {
+  @apply mt-[0.1rem] stroke-theme-yellow;
+}
+
+.container:hover .ellipse_green {
+  @apply mt-[0.1rem] stroke-theme-green;
+}
+
+.container:hover .ellipse_red {
+  @apply mt-[0.1rem] stroke-theme-red;
+}

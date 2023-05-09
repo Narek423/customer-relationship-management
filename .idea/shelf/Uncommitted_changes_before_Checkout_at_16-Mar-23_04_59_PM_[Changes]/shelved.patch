@@ -1,0 +1,23 @@
+Index: src/components/layout/modal/index.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { FC, ReactNode } from 'react';\r\n\r\nimport ClickAway from '@/components/layout/outside-click';\r\n\r\ntype ModalProps = {\r\n  children: ReactNode;\r\n};\r\nconst Modal: FC = () => {\r\n  return (\r\n    <div>\r\n      <ClickAway onClickAway={onClose}>{children}</ClickAway>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default Modal;\r\n
+===================================================================
+diff --git a/src/components/layout/modal/index.tsx b/src/components/layout/modal/index.tsx
+--- a/src/components/layout/modal/index.tsx	
++++ b/src/components/layout/modal/index.tsx	
+@@ -5,12 +5,8 @@
+ type ModalProps = {
+   children: ReactNode;
+ };
+-const Modal: FC = () => {
+-  return (
+-    <div>
+-      <ClickAway onClickAway={onClose}>{children}</ClickAway>
+-    </div>
+-  );
++const Modal: FC<ModalProps> = ({ children }) => {
++  return <ClickAway onClickAway={onClose}>{children}</ClickAway>;
+ };
+ 
+ export default Modal;

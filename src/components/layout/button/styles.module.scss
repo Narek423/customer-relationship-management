@@ -1,0 +1,32 @@
+.button {
+  @apply flex w-fit cursor-pointer items-center justify-center rounded
+   px-8 py-3 font-poppins text-sm font-semibold leading-5 text-theme-white
+  shadow-[0_4px_10px_-15px_rgba(16,156,241,0.24)];
+
+  &.contained {
+    @apply bg-theme-accent-blue hover:bg-theme-accent-blue-light active:bg-theme-accent-blue-dark;
+
+    &.disabled {
+      @apply cursor-not-allowed bg-theme-icon-gray;
+    }
+  }
+
+  &.outlined {
+    @apply border border-theme-accent-blue text-theme-accent-blue
+		hover:border-theme-accent-blue-light hover:text-theme-accent-blue-light
+		active:border-theme-accent-blue-dark active:text-theme-accent-blue-dark;
+
+    &.disabled {
+      @apply cursor-not-allowed border border-theme-icon-gray text-theme-icon-gray;
+    }
+  }
+}
+
+.text {
+  @apply flex cursor-pointer px-2 font-poppins text-sm font-semibold leading-5
+   text-theme-accent-blue hover:text-theme-accent-blue-light active:text-theme-accent-blue-dark;
+
+  &.disabled {
+    @apply flex cursor-not-allowed px-2 font-poppins text-sm font-semibold leading-5 text-theme-accent-blue/40;
+  }
+}

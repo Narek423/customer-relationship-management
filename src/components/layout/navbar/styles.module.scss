@@ -1,0 +1,73 @@
+.container {
+  @apply max-h-screen;
+
+  .title {
+    @apply ml-8 flex h-[4.2rem]  items-center text-lg font-semibold text-[#109CF1];
+  }
+  .navbar {
+    @apply h-[40rem] overflow-y-auto overflow-x-hidden;
+  }
+  .avatar {
+    @apply mt-6 mb-10  flex w-auto items-center px-8;
+    .name {
+      @apply font-poppins text-sm font-medium;
+    }
+    .lastname {
+      @apply font-poppins text-sm font-medium;
+    }
+    .mail {
+      @apply text-xs text-[#90A0B7];
+    }
+  }
+  .hr {
+    @apply mt-6;
+  }
+  .image {
+    @apply ml-8 flex cursor-pointer items-center  stroke-[#C2CFE0] py-3  text-[#334D6E] hover:stroke-[#109CF1] hover:text-[#109CF1];
+  }
+  .settings {
+    @apply mt-6 ml-8 flex cursor-pointer items-center fill-[#C2CFE0] py-3   text-[#334D6E] hover:fill-[#109CF1]  hover:text-[#109CF1];
+    p {
+      @apply ml-6;
+    }
+  }
+  .toggle {
+    @apply ml-8 flex cursor-pointer items-center fill-[#C2CFE0] py-3 text-[#90A0B7] hover:fill-[#109CF1] hover:text-[#109CF1];
+    p {
+      @apply ml-6;
+    }
+  }
+  .logout {
+    @apply ml-7 flex cursor-pointer items-center  stroke-[#C2CFE0] py-3 text-[#334D6E] hover:stroke-[#109CF1] hover:text-[#109CF1];
+    p {
+      @apply ml-5;
+    }
+  }
+  .item_name {
+    @apply ml-6;
+  }
+}
+.container_toggle {
+  @apply h-screen;
+  .title_toggle {
+    @apply flex h-[4.2rem] items-center  justify-center text-lg font-semibold text-[#109CF1];
+  }
+  .avatar_toggle {
+    @apply mt-10 mb-10 flex w-20 items-center px-2;
+  }
+  .hr_toggle {
+    @apply mt-6;
+  }
+  .image_toggle {
+    @apply flex cursor-pointer items-center justify-center stroke-[#C2CFE0] py-3 text-[#334D6E] hover:stroke-[#109CF1] hover:text-[#109CF1];
+  }
+  .settings_toggle {
+    @apply mt-6  flex cursor-pointer items-center justify-center fill-[#C2CFE0]    text-[#334D6E] hover:fill-[#109CF1]  hover:text-[#109CF1];
+  }
+  .toggle_toggle {
+    @apply my-12 flex cursor-pointer items-center justify-center  fill-[#C2CFE0] text-[#90A0B7] hover:fill-[#109CF1] hover:text-[#109CF1];
+  }
+  .logout_logout {
+    @apply ml-7 flex cursor-pointer items-center  stroke-[#C2CFE0] py-3 text-[#334D6E] hover:stroke-[#109CF1] hover:text-[#109CF1];
+  }
+}

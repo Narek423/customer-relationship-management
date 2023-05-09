@@ -1,0 +1,22 @@
+.container {
+  @apply flex;
+
+  .navbar {
+    @apply col-start-1 col-end-3 row-start-1 row-end-[12] shadow-black drop-shadow-md;
+  }
+  .search_content {
+    @apply w-full;
+
+    .content {
+      @apply grid bg-[#F5F6F8] p-6;
+
+      .taskarea_container {
+        @apply col-start-1 col-end-4 row-start-1 row-end-[12] flex justify-center;
+      }
+
+      .charts_container {
+        @apply col-start-4 col-end-8 row-start-1 row-end-[12] flex flex-col items-center justify-between;
+      }
+    }
+  }
+}

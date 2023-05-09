@@ -1,0 +1,30 @@
+.title {
+  @apply flex items-center text-theme-dark-blue-text;
+
+  .checklist_title {
+    @apply flex w-full items-center justify-between;
+
+    .title_week {
+      @apply flex cursor-pointer items-center;
+
+      .title_week_btn {
+        @apply ml-2 flex text-sm text-theme-accent-blue;
+      }
+
+      .down_arrow {
+        @apply my-auto ml-2 mt-3 flex w-2;
+      }
+    }
+  }
+}
+.checklist_progress {
+  @apply mt-4 flex w-full items-center;
+
+  .percent_line {
+    @apply h-2  w-full rounded-full bg-[#091e4214];
+
+    .percent_line_div {
+      @apply h-2 rounded bg-theme-green;
+    }
+  }
+}

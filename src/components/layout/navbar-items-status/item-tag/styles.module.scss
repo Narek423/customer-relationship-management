@@ -1,0 +1,32 @@
+.purple,
+.green,
+.red,
+.yellow,
+.dark,
+.light_gray {
+  @apply flex h-[1.35rem] w-[5.25rem] select-none items-center  rounded font-poppins text-[0.8rem] text-[#334D6E];
+}
+
+.purple {
+  @apply stroke-[#885AF8];
+}
+
+.green {
+  @apply stroke-[#2ED47A];
+}
+
+.red {
+  @apply stroke-[#F7685B];
+}
+
+.yellow {
+  @apply whitespace-pre stroke-[#FFB946];
+}
+
+.dark {
+  @apply stroke-[#334D6E];
+}
+
+.light_gray {
+  @apply stroke-[#818E9B];
+}

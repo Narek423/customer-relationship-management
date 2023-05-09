@@ -1,0 +1,19 @@
+.charts_circul {
+  @apply relative  mt-7 flex w-fit flex-col rounded bg-white shadow-[0px_6px_18px_rgba(0,0,0,0.06)];
+
+  .percent {
+    @apply absolute ml-[7.7rem] mt-[8.7rem] flex text-5xl text-theme-green;
+  }
+
+  .status_container {
+    @apply absolute right-20 top-[8rem] flex flex-col gap-2;
+  }
+
+  .status_items {
+    @apply flex items-center gap-2;
+
+    .status_items_text {
+      @apply ml-1 mb-1 text-sm font-normal leading-4 text-theme-dark-blue-text;
+    }
+  }
+}
