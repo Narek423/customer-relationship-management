@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import avatar from '@/components/layout/avatar';
 import Button from '@/components/layout/button';
 import LoadingSpinner from '@/components/layout/loading-spinner';
 import { writeUserData } from '@/firebase/firebase';
@@ -20,7 +21,7 @@ type SignUpProps = {
 };
 const SignUp: FC<SignUpProps> = () => {
   const [err, setErr] = useState<string>('');
-  const { user, createUser } = useUserContext();
+  const { user, createUser, setUserData } = useUserContext();
 
   const router = useRouter();
 
@@ -38,7 +39,16 @@ const SignUp: FC<SignUpProps> = () => {
     try {
       const UserCredential = await createUser(email, password);
       const uid = UserCredential.user.uid;
-      writeUserData(name, lastName, email, uid, [''], '');
+      writeUserData(name, lastName, email, uid, [''], [''], '');
+      setUserData({
+        name,
+        ['Last Name']: lastName,
+        email,
+        uid,
+        tasksId: [''],
+        contactsId: [''],
+        avatar: '',
+      });
       router.push('/profile-page');
     } catch (err) {
       setErr('Invalid input! Please enter valid information.');

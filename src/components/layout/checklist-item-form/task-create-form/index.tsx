@@ -18,11 +18,11 @@ const TaskCreateForm: FC<TaskCreateFormProps> = ({ onClose }) => {
   const [err, setErr] = useState<string>('');
   const { writeNewTask } = useTasksContext();
   const { setTaskData } = useTasksDataContext();
-
   const { userData, setUserData } = useUserContext();
+
   const handleSubmit = async (backendInputData: BackendInputTasks) => {
     try {
-      writeNewTask(backendInputData, userData, setUserData, setTaskData);
+      writeNewTask(backendInputData, userData, setUserData, setTaskData as any);
       onClose();
     } catch (error) {
       setErr('Invalid input! Please enter valid information.');

@@ -15,13 +15,15 @@ export const taskInptsData = [
     title: 'Due date',
   },
   {
-    variant: 'text',
+    variant: 'select',
     label: 'Type',
     title: 'Type',
+    options: ['Reminder', 'Call', 'Event'],
   },
   {
-    variant: 'text',
+    variant: 'select',
     label: 'Status',
     title: 'Status',
+    options: ['Active', 'Completed', 'Ended'],
   },
 ];

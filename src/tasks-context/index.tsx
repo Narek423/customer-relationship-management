@@ -10,36 +10,60 @@ import {
 } from 'react';
 
 import LoadingAvatar from '@/components/layout/loading-avatar';
-import { getTaskData } from '@/firebase/firebase';
-import { ITasks } from '@/types/main-task';
+import { ITaskData, ITasks } from '@/types/main-task';
 import { useUserContext } from '@/user-context';
+import dataRequest from '@/utils/rest';
+import userTasksFlter from '@/utils/user-tasks-filter';
 
 type ProviderProps = {
   children: ReactNode;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 type ContextProps = {
-  taskData: ITasks | null;
-  setTaskData: Dispatch<SetStateAction<ITasks | null>>;
+  taskData: ITasks;
+  setTaskData: Dispatch<SetStateAction<ITasks>>;
+  filteredTaskData: ITaskData[];
+  setFilter: Dispatch<SetStateAction<string>>;
+  filter: string;
 };
 
 export const TasksDataContext = createContext<ContextProps | null>(null);
 
 export const TasksDataContextProvider: FC<ProviderProps> = ({ children }) => {
-  const [taskData, setTaskData] = useState<ITasks | null>(null);
+  const [taskData, setTaskData] = useState<ITasks>({});
+  const { user, userData } = useUserContext();
+  const [filteredTaskData, setFilteredTaskData] = useState<ITaskData[]>([]);
+  const [filter, setFilter] = useState('');
 
-  const { user } = useUserContext();
+  const handleFilter = () => {
+    const userTask = userTasksFlter(userData.tasksId, taskData);
+
+    if (filter === 'Active' || filter === 'Ended' || filter === 'Completed') {
+      const userTasksList = userTask.filter(task => task.Status === filter);
+      setFilteredTaskData(userTasksList);
+    } else {
+      setFilteredTaskData(userTask);
+    }
+  };
 
   useEffect(() => {
     if (user === null) return;
+    dataRequest<ITasks>('/tasks').then(backData => {
+      setTaskData(backData);
+      handleFilter();
+    });
+  }, [user, userData]);
 
-    getTaskData().then(backData => setTaskData(backData.val()));
-  }, [user]);
+  useEffect(() => {
+    handleFilter();
+  }, [filter, taskData]);
 
   const value = {
     taskData,
     setTaskData,
+    filteredTaskData,
+    setFilter,
+    filter,
   };
 
   return (

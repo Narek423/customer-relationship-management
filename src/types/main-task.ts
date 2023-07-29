@@ -1,10 +1,11 @@
+export interface ITaskData {
+  Name: string;
+  Label: string;
+  ['Due date']: string;
+  Type: string;
+  Status: string;
+  belongsTo: string;
+}
 export interface ITasks {
-  [id: string]: {
-    Name: string;
-    Label: string;
-    ['Due date']: string;
-    Type: string;
-    Status: string;
-    belongsTo: string;
-  };
+  [id: string]: ITaskData;
 }

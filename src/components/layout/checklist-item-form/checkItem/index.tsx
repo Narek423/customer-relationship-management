@@ -1,20 +1,28 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
+import DeleteModal from '../../delete-modal';
+import Modal from '../../modal';
 import Tag from '../../tag';
+import { removeTask } from '@/firebase/firebase';
 import EllipseIcon from '@/icons-for-task/ellipse-icon';
+import { useTasksDataContext } from '@/tasks-context';
 
 import styles from './styles.module.scss';
 
 type CheckItemProps = {
   checkItem: any;
+  setDeleteIndicator: Dispatch<SetStateAction<string>>;
 };
 
-const CheckItem: FC<CheckItemProps> = ({ checkItem }) => {
+const CheckItem: FC<CheckItemProps> = ({ checkItem, setDeleteIndicator }) => {
+  const { setTaskData } = useTasksDataContext();
+  const [remuveModal, setRemuveModal] = useState(false);
+
   const colorPicker = (status: string) => {
     switch (status) {
       case 'Ended':
         return 'red';
-      case 'Complited':
+      case 'Completed':
         return 'green';
       case 'Active':
         return 'yellow';
@@ -24,10 +32,11 @@ const CheckItem: FC<CheckItemProps> = ({ checkItem }) => {
   };
 
   const indicatorIconColor = [
-    { status: 'Complited', style: styles.ellipse_green },
+    { status: 'Completed', style: styles.ellipse_green },
     { status: 'Active', style: styles.ellipse_yellow },
     { status: 'Ended', style: styles.ellipse_red },
   ];
+
   return (
     <div className={styles.container}>
       <div className={styles.title_container}>
@@ -55,8 +64,35 @@ const CheckItem: FC<CheckItemProps> = ({ checkItem }) => {
           </div>
           <div className={styles.edit_recycle_icon}>
             <img className="flex" src="/assets/pan.svg" alt="pan" />
-            <img className="flex" src="/assets/recycle.svg" alt="recycle" />
+            <img
+              className="flex"
+              src="/assets/recycle.svg"
+              alt="recycle"
+              onClick={() => setRemuveModal(true)}
+            />
           </div>
+          {remuveModal && (
+            <div className={styles.modal_full_screen}>
+              <Modal
+                openModal={remuveModal}
+                onClose={() => setRemuveModal(false)}
+              >
+                <DeleteModal
+                  onClose={() => setRemuveModal(false)}
+                  removeTask={async () => {
+                    try {
+                      await removeTask(checkItem.uid, setTaskData);
+                      setDeleteIndicator('Task has been deleted successfully');
+                    } catch (err) {
+                      setDeleteIndicator('Task deleting failed');
+                    }
+
+                    setTimeout(() => setDeleteIndicator(''), 2000);
+                  }}
+                />
+              </Modal>
+            </div>
+          )}
           <Tag color={colorPicker(checkItem.Status)}>{checkItem.Status}</Tag>
         </div>
       </div>

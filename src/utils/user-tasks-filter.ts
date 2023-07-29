@@ -1,11 +1,15 @@
-import { ITasks } from '@/types/main-task';
-
-const userTasksFlter = (tasksId: string[], tasks: ITasks | null) => {
+const userTasksFilter = (tasksId: string[], tasks: any) => {
   const filteredUserTasks = [];
+
   for (const key in tasks) {
-    if (tasksId.includes(key)) filteredUserTasks.push(tasks[key]);
+    if (tasksId.includes(key)) {
+      tasks[key].uid = key;
+      const taskWithId = tasks[key];
+      filteredUserTasks.push(taskWithId);
+    }
   }
+
   return filteredUserTasks;
 };
 
-export default userTasksFlter;
+export default userTasksFilter;

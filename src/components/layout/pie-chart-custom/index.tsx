@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import dynamic from 'next/dynamic';
 import { Pie, Cell } from 'recharts';
@@ -6,9 +6,9 @@ import { Pie, Cell } from 'recharts';
 import ChartNavbar from '../chart-navbar';
 import EllipseIconThik from '@/icons-for-task/ellipse-icon-thik';
 import { ITasks } from '@/types/main-task';
-import { useUserContext } from '@/user-context';
+import { ImageUploadObjact } from '@/user-context';
 import getTasksStatistics from '@/utils/get-tasks-statistics';
-import userTasksFlter from '@/utils/user-tasks-filter';
+import userTasksFilter from '@/utils/user-tasks-filter';
 
 import styles from './styles.module.scss';
 
@@ -19,37 +19,40 @@ const PieChart = dynamic(() => import('recharts').then(mod => mod.PieChart), {
 
 type PieChartCustomProps = {
   taskData: ITasks | null;
+  userData: ImageUploadObjact;
 };
 
-const PieChartCustom: FC<PieChartCustomProps> = ({ taskData }) => {
-  const { userData } = useUserContext();
-  const userTasks = userTasksFlter(userData.tasksId, taskData);
-  const tasksStatistics = getTasksStatistics(userTasks);
+const PieChartCustom: FC<PieChartCustomProps> = ({ taskData, userData }) => {
+  const userTasks = userTasksFilter(userData.tasksId, taskData);
+
+  const tasksStatistics = getTasksStatistics(userTasks as any);
 
   const data1 = [
     { name: 'Active', value: tasksStatistics.active },
-    { name: 'Complited', value: tasksStatistics.complited },
+    { name: 'Completed', value: tasksStatistics.completed },
     { name: 'Ended', value: tasksStatistics.ended },
   ];
-  const COLORS = ['#2ed47a', '#ffb946', '#f7685b'];
+  const COLORS = ['#ffb946', '#2ed47a', '#f7685b'];
 
   const statusItems = [
     { color: 'stroke-[#ffb946]', title: 'Active' },
-    { color: 'stroke-[#2ed47a]', title: 'Complited' },
+    { color: 'stroke-[#2ed47a]', title: 'Completed' },
     { color: 'stroke-[#f7685b]', title: 'Ended' },
   ];
-
+  const completedPercent = Math.round(
+    (tasksStatistics.completed /
+      (tasksStatistics.active +
+        tasksStatistics.completed +
+        tasksStatistics.ended)) *
+      100
+  );
   return (
     <div className={styles.charts_circul}>
-      <div className={styles.percent}>
-        {Math.round(
-          ((tasksStatistics.active +
-            tasksStatistics.complited +
-            tasksStatistics.ended) /
-            10) *
-            tasksStatistics.complited
-        ) + '%'}
-      </div>
+      <div
+        className={`${styles.percent} ${
+          completedPercent > 9 ? styles.high_percent : ''
+        } ${completedPercent > 99 ? styles.hundred_percent : ''}`}
+      >{`${completedPercent || 0 + '%'}`}</div>
       <ChartNavbar title={'Tasks'} period={'This month'} />
       <PieChart width={500} height={230}>
         <Pie

@@ -1,24 +1,30 @@
 import { FC } from 'react';
 
+import { useTasksDataContext } from '@/tasks-context';
+import { useUserContext } from '@/user-context';
+import userTasksFilter from '@/utils/user-tasks-filter';
+
 import styles from './styles.module.scss';
 
-type ChecklistTitleProps = {
-  checkItems: any;
-};
+const ChecklistTitle: FC = () => {
+  const { userData } = useUserContext();
+  const { taskData } = useTasksDataContext();
 
-const ChecklistTitle: FC<ChecklistTitleProps> = ({ checkItems }) => {
-  const complated = checkItems.filter(
-    (checkItem: any) => checkItem.status === 'Completed'
-  ).length;
-  const items = `${checkItems.length !== 0 ? checkItems.length : 1}`;
-  const percent = `${(complated / Number(items)) * 100}%`;
+  const userTasks = userTasksFilter(userData.tasksId, taskData);
 
+  const status: string[] = [];
+
+  userTasks.map(userTask => {
+    userTask?.Status === 'Completed' ? status.push(userTask.Status) : 0;
+  });
+  const items = `${userTasks.length !== 0 ? userTasks.length : 0}`;
+  const percent = `${(status.length / Number(items)) * 100}%`;
   return (
     <>
       <div className={styles.title}>
         <div className={styles.checklist_title}>
           <div className={styles.title_text}>
-            {`${complated} task completed out of ${items}`}
+            {`${status.length} task completed out of ${items}`}
           </div>
           <div className={styles.title_week}>
             <span>Show:</span>

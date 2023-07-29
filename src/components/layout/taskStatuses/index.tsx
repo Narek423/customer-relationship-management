@@ -1,7 +1,6 @@
 import { FC, ReactNode } from 'react';
 
 import Tag from '@/components/layout/tag';
-import styles from '@/components/layout/tag/styles.module.scss';
 
 type TaskStatusesProps = {
   taskStatuses?: 'Completed' | 'Ended' | 'Active';

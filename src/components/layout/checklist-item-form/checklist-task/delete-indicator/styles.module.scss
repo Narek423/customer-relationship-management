@@ -1,0 +1,16 @@
+.main_container_success,
+.main_container_failed {
+  @apply rounded bg-theme-green/70 px-3 py-1 text-theme-black;
+
+  .success_icon {
+    @apply mr-2 text-theme-gray;
+  }
+}
+
+.main_container_success {
+  @apply bg-theme-green/40;
+}
+
+.main_container_failed {
+  @apply bg-theme-red/40;
+}

@@ -1,5 +1,5 @@
 .container {
-  @apply mt-3 flex h-28 w-full cursor-pointer flex-col justify-between 
+  @apply my-2 flex h-28 w-full cursor-pointer flex-col justify-between 
 	 p-4 shadow-[0px_2px_10px_rgba(0,0,0,0.08)];
 
   .title_container {
@@ -30,6 +30,11 @@
       .avatar {
         @apply mr-2 w-8 rounded-full;
       }
+    }
+
+    .modal_full_screen {
+      @apply fixed top-0 left-0 z-50 flex min-h-screen min-w-full
+    items-center justify-center bg-theme-table-gray/50;
     }
   }
 

@@ -3,7 +3,14 @@ import { FC, ReactNode } from 'react';
 import styles from './styles.module.scss';
 
 type ItemTagProps = {
-  color: 'purple' | 'green' | 'red' | 'yellow' | 'dark' | 'light_gray';
+  color:
+    | 'black'
+    | 'purple'
+    | 'green'
+    | 'red'
+    | 'yellow'
+    | 'dark'
+    | 'light_gray';
   children: ReactNode;
 };
 

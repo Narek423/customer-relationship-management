@@ -27,7 +27,6 @@ type ContextProps = {
     setTaskData: Dispatch<SetStateAction<ITasks | null>>
   ) => void;
 };
-
 export type BackendInputTasks = {
   ['Full name']: string;
   Label: string;

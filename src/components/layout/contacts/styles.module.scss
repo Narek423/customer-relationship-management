@@ -1,0 +1,25 @@
+.content {
+  @apply max-h-screen  bg-[#F5F6F8] p-6;
+  .add {
+    @apply my-6 flex w-full  items-center justify-between;
+    .company {
+      @apply text-[#90A0B7];
+      span {
+        @apply text-theme-accent-blue;
+      }
+    }
+  }
+  .modal_full_screen {
+    @apply fixed top-0 left-0 z-50 flex min-h-screen min-w-full
+    items-center justify-center bg-theme-table-gray/50;
+  }
+  .contacts_header {
+    @apply ml-8 grid h-12 grid-cols-[43%_minmax(34%,_1fr)_minmax(26%,_1fr)_minmax(17%,_1fr)_minmax(17%,_1fr)_minmax(15%,_1fr)_minmax(15%,_1fr)] items-center;
+    div {
+      @apply text-[#90A0B7];
+      input {
+        @apply ml-4;
+      }
+    }
+  }
+}

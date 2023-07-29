@@ -9,6 +9,7 @@ import {
   SetStateAction,
 } from 'react';
 
+import { Logout } from '@mui/icons-material';
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -20,7 +21,8 @@ import {
 import { ref as sRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import LoadingSpinner from '@/components/layout/loading-spinner';
-import { auth, getUserData, storage, writeUserData } from '@/firebase/firebase';
+import { auth, storage, writeUserData } from '@/firebase/firebase';
+import dataRequest from '@/utils/rest';
 
 type ProviderProps = {
   children: ReactNode;
@@ -33,6 +35,7 @@ export type ImageUploadObjact = {
   name: string;
   uid: string;
   tasksId: string[];
+  contactsId: string[];
 };
 
 type ContextProps = {
@@ -43,6 +46,8 @@ type ContextProps = {
   signIn: (email: string, password: string) => void;
   createUser: (email: string, password: string) => Promise<UserCredential>;
   userSignOut: () => void;
+  contact: boolean;
+  setContact: Dispatch<SetStateAction<boolean>>;
   onHandleClick: (
     imageUpload: Blob | null,
     setImageUpload: Dispatch<SetStateAction<Blob | null>>,
@@ -50,10 +55,11 @@ type ContextProps = {
   ) => void;
 };
 const UserContext = createContext<ContextProps | null>(null);
-
 export const UserContextProvider: FC<ProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [contact, setContact] = useState<boolean>(false);
+
   const [userData, setUserData] = useState<ImageUploadObjact>({
     avatar: '',
     email: '',
@@ -61,8 +67,8 @@ export const UserContextProvider: FC<ProviderProps> = ({ children }) => {
     name: '',
     uid: '',
     tasksId: [''],
+    contactsId: [''],
   });
-
   const createUser = (email: string, password: string) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -98,6 +104,7 @@ export const UserContextProvider: FC<ProviderProps> = ({ children }) => {
               userData.email,
               userData.uid,
               userData.tasksId,
+              userData.contactsId,
               url
             );
             setUrl(url);
@@ -108,7 +115,7 @@ export const UserContextProvider: FC<ProviderProps> = ({ children }) => {
         setImageUpload(null);
       })
       .catch(error => {
-        alert(error.massage);
+        alert(error);
       });
   };
 
@@ -118,15 +125,15 @@ export const UserContextProvider: FC<ProviderProps> = ({ children }) => {
       setLoading(false);
     });
 
+    if (user && user.uid) {
+      dataRequest<ImageUploadObjact>(`/users/${user.uid}`).then(response => {
+        response && setUserData(response);
+      });
+    }
+
     return () => {
       unsubscribe();
     };
-  }, [user]);
-
-  useEffect(() => {
-    if (user === null) return;
-
-    getUserData(user).then(backData => setUserData(backData.val()));
   }, [user]);
 
   const value = {
@@ -138,6 +145,8 @@ export const UserContextProvider: FC<ProviderProps> = ({ children }) => {
     userData,
     onHandleClick,
     setUserData,
+    contact,
+    setContact,
   };
 
   return (

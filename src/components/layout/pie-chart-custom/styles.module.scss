@@ -2,7 +2,15 @@
   @apply relative  mt-7 flex w-fit flex-col rounded bg-white shadow-[0px_6px_18px_rgba(0,0,0,0.06)];
 
   .percent {
-    @apply absolute ml-[7.7rem] mt-[8.7rem] flex text-5xl text-theme-green;
+    @apply absolute ml-[8.3rem] mt-[8.7rem] flex text-5xl text-theme-green;
+
+    &.high_percent {
+      @apply ml-[7.7rem];
+    }
+
+    &.hundred_percent {
+      @apply ml-[6.9rem];
+    }
   }
 
   .status_container {

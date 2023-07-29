@@ -3,8 +3,12 @@
 .red,
 .yellow,
 .dark,
+.black,
 .light_gray {
-  @apply flex h-[1.35rem] w-[5.25rem] select-none items-center  rounded font-poppins text-[0.8rem] text-[#334D6E];
+  @apply flex h-[1.35rem] w-[5.25rem] cursor-pointer select-none  items-center rounded font-poppins text-[0.8rem] text-[#334D6E];
+}
+.black {
+  @apply stroke-[#000000];
 }
 
 .purple {

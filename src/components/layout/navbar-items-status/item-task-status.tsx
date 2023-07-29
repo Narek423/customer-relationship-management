@@ -4,7 +4,7 @@ import ItemTag from '@/components/layout/navbar-items-status/item-tag';
 import ItemsIcon from '@/components/svg-icons/items-icon';
 
 type ItemTaskStatusesProps = {
-  itemTaskStatuses?: 'Completed' | 'Ended' | 'Active';
+  itemTaskStatuses?: 'All' | 'Completed' | 'Ended' | 'Active';
   toggle: boolean;
 };
 const ItemTaskStatuses: FC<ItemTaskStatusesProps> = ({
@@ -13,6 +13,8 @@ const ItemTaskStatuses: FC<ItemTaskStatusesProps> = ({
 }) => {
   const itemTaskStatusesColor = (itemTaskStatuses: ReactNode) => {
     switch (itemTaskStatuses) {
+      case 'All':
+        return 'black';
       case 'Completed':
         return 'green';
       case 'Ended':

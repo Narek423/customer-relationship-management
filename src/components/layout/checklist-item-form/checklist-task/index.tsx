@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 
+import DeleteIndicator from './delete-indicator';
 import Modal from '../../modal';
 import ChecklistTitle from '../checklist_title';
 import KalendCustom from '../custom-kalend';
@@ -7,37 +8,57 @@ import TaskCreateForm from '../task-create-form';
 import CheckItem from '@/components/layout/checklist-item-form/checkItem';
 import { useTasksDataContext } from '@/tasks-context';
 import { TasksContextProvider } from '@/tasks-wrighting-context';
-import { useUserContext } from '@/user-context';
-import userTasksFlter from '@/utils/user-tasks-filter';
 
 import 'kalend/dist/styles/index.css';
-
 import styles from './styles.module.scss';
 
-type ChecklistTaskProps = {
-  checkItems: any;
-};
-
-const ChecklistTask: FC<ChecklistTaskProps> = ({ checkItems }) => {
+const ChecklistTask: FC = () => {
   const [creatTaskModal, setCreatTaskModal] = useState<boolean>(false);
-  const { taskData } = useTasksDataContext();
-  const { userData } = useUserContext();
+  const { filteredTaskData } = useTasksDataContext();
+  const [deleteIndicator, setDeleteIndicator] = useState<string>('');
+  const [showMoreSwitcher, setShowMoreSwitcher] = useState<boolean>(false);
+
   return (
     <div className={styles.main_container}>
-      <ChecklistTitle checkItems={checkItems} />
+      {deleteIndicator && (
+        <div className={styles.delete_indicator}>
+          {deleteIndicator === 'Task deleting failed' ? (
+            <DeleteIndicator
+              success={false}
+              deleteIndicator={deleteIndicator}
+            />
+          ) : (
+            <DeleteIndicator success deleteIndicator={deleteIndicator} />
+          )}
+        </div>
+      )}
+      <ChecklistTitle />
       <KalendCustom />
-      <div className={styles.tasks_container}>
-        {userTasksFlter(userData.tasksId, taskData).map((checkItem: any) => {
+      <div
+        className={
+          showMoreSwitcher
+            ? styles.tasks_container
+            : styles.tasks_container_show_more
+        }
+      >
+        {filteredTaskData.map((checkItem: any) => {
           return (
             <div key={Math.random()}>
-              <CheckItem checkItem={checkItem} />
+              <CheckItem
+                checkItem={checkItem}
+                setDeleteIndicator={setDeleteIndicator}
+              />
             </div>
           );
         })}
       </div>
-
       <div className={styles.button_container}>
-        <a className={styles.show_btn}>Show more</a>
+        <a
+          className={styles.show_btn}
+          onClick={() => setShowMoreSwitcher(true)}
+        >
+          Show more
+        </a>
         <a
           className={styles.add_item_btn}
           onClick={() => setCreatTaskModal(true)}
@@ -60,5 +81,4 @@ const ChecklistTask: FC<ChecklistTaskProps> = ({ checkItems }) => {
     </div>
   );
 };
-
 export default ChecklistTask;

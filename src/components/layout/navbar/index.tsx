@@ -28,10 +28,11 @@ const Navbar: FC = () => {
               <div>
                 <Avatar />
               </div>
+
               <div>
                 <div className={styles.name}>{userData.name}</div>
                 <div className={styles.lastname}> {userData['Last Name']}</div>
-                <div className={styles.mail}>{userData.email}</div>
+                <div className={styles.email}>{userData.email}</div>
               </div>
             </div>
             {menu.map(item => {

@@ -10,6 +10,7 @@ type InputElementType = {
   variant: string;
   label: string;
   title: string;
+  options?: string[];
 };
 
 type InputTasksProps = {
@@ -41,6 +42,7 @@ const InputTasks: FC<InputTasksProps> = ({
         title={input.title}
         inputValue={inputValue}
         setInputValue={setInputValue}
+        options={input.options}
       />
       {inputsData.length - 1 === index && (
         <div className={styles.button}>

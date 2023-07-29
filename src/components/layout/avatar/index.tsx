@@ -19,36 +19,31 @@ const Avatar: FC = () => {
     }
   };
   useEffect(() => {
-    if (userData.avatar) setUrl(userData.avatar);
-  }, [userData.avatar]);
+    if (userData && userData.avatar) setUrl(userData.avatar);
+  }, [userData]);
 
   const avatarImage = './assets/avatar.jpg';
-
   return (
     <>
       {!imageUpload ? (
         <div>
-          {!userData.email ? (
-            <LoadingAvatar />
-          ) : (
-            <div className={styles.avatar_container}>
-              <img
-                src={userData.avatar || url || avatarImage}
-                className={styles.img}
-              />
-              <div onClick={() => setImageConfirm(!imageConfirm)}>
-                <div className={styles.edit}>
-                  <EditIcon />
-                </div>
-                <input
-                  type="file"
-                  onChange={onHandleChange}
-                  className={styles.image_name}
-                  accept="image/*"
-                />
+          <div className={styles.avatar_container}>
+            <img
+              src={userData?.avatar || url || avatarImage}
+              className={styles.img}
+            />
+            <div onClick={() => setImageConfirm(!imageConfirm)}>
+              <div className={styles.edit}>
+                <EditIcon />
               </div>
+              <input
+                type="file"
+                onChange={onHandleChange}
+                className={styles.image_name}
+                accept="image/*"
+              />
             </div>
-          )}
+          </div>
         </div>
       ) : (
         <div className={styles.avatar_container}>

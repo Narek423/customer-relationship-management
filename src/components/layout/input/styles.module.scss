@@ -72,8 +72,4 @@
   .input_select_focus {
     @apply bg-[url("/assets/polygon_blue.svg")];
   }
-
-  select:invalid {
-    @apply text-[#323c47] opacity-50;
-  }
 }

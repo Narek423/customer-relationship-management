@@ -1,0 +1,20 @@
+.container {
+  @apply relative h-44 w-72 flex-col rounded-sm bg-white px-4 text-[#5e6c84] shadow-md shadow-slate-500/50;
+
+  .title {
+    @apply flex h-10 items-center justify-center border-b-[1px] border-[#091e4221];
+
+    .x_icon {
+      @apply absolute right-4 top-2 cursor-pointer;
+    }
+  }
+
+  .text {
+    @apply mt-2 mb-4 text-sm text-[#172b4d];
+  }
+
+  .delete_button {
+    @apply mt-2 flex h-8 cursor-pointer items-center justify-center rounded 
+		bg-[#b04632] pl-3 text-sm font-normal text-white hover:bg-[#933b27];
+  }
+}

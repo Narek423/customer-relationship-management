@@ -1,10 +1,11 @@
-import { Dispatch, FC, ReactNode, SetStateAction, useState } from 'react';
+import { FC } from 'react';
 
 import Modal from '@/components/layout/modal';
 import ItemContactStatus from '@/components/layout/navbar-items-status/item-contact-status';
 import ItemDealStatus from '@/components/layout/navbar-items-status/item-deal-status';
 import ItemEmailStatus from '@/components/layout/navbar-items-status/item-email-status';
 import ItemTaskStatus from '@/components/layout/navbar-items-status/item-task-status';
+import { useTasksDataContext } from '@/tasks-context';
 
 type EmailModalProps = {
   buttonName: string;
@@ -19,10 +20,12 @@ const ItemsModal: FC<EmailModalProps> = ({
   toggle,
   buttonName,
 }) => {
+  const { setFilter, filter } = useTasksDataContext();
+
   const modalContentPicker = (contentType: string) => {
     switch (contentType) {
       case 'Tasks':
-        return ['Completed', 'Ended', 'Active'];
+        return ['All', 'Completed', 'Ended', 'Active'];
       case 'Email':
         return ['Scheduled', 'Sent', 'Archived', 'Draft'];
       case 'Contacts':
@@ -57,7 +60,9 @@ const ItemsModal: FC<EmailModalProps> = ({
           {modalContentPicker(buttonName).map(item => {
             return (
               <div key={Math.random()}>
-                {statusComponentPicker(buttonName, item, toggle)}
+                <div key={Math.random()} onClick={() => setFilter(item)}>
+                  {statusComponentPicker(buttonName, item, toggle)}
+                </div>
               </div>
             );
           })}

@@ -9,12 +9,22 @@ const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), {
 });
 
 import ChartNavbar from '../chart-navbar';
-import data from '@/fake-data/line-chart';
 import EllipseIconThik from '@/icons-for-task/ellipse-icon-thik';
+import { useTasksDataContext } from '@/tasks-context';
+import { useUserContext } from '@/user-context';
+import daysOfTheWeek from '@/utils/chart-week-data';
+import userTasksFilter from '@/utils/user-tasks-filter';
 
 import styles from './styles.module.scss';
 
 const LineChartCustom: FC = () => {
+  const { userData } = useUserContext();
+  const { taskData } = useTasksDataContext();
+
+  const userTasks = userTasksFilter(userData.tasksId, taskData);
+
+  const weekData = daysOfTheWeek(userTasks as any);
+
   return (
     <div className={styles.charts_line}>
       <ChartNavbar title={'Deals'} period={'Monthly'} />
@@ -25,7 +35,7 @@ const LineChartCustom: FC = () => {
       <AreaChart
         width={500}
         height={230}
-        data={data}
+        data={weekData}
         margin={{
           top: 20,
           right: 30,

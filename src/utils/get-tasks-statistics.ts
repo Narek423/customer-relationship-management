@@ -8,12 +8,12 @@ type UsersTasks = {
 }[];
 
 const getTasksStatistics = (userTasks: UsersTasks) => {
-  const userStatisctics = { active: 0, complited: 0, ended: 0 };
+  const userStatisctics = { active: 0, completed: 0, ended: 0 };
   for (const elem of userTasks) {
     if (elem.Status === 'Active') {
       userStatisctics.active = ++userStatisctics.active;
-    } else if (elem.Status === 'Complited') {
-      userStatisctics.complited = ++userStatisctics.complited;
+    } else if (elem.Status === 'Completed') {
+      userStatisctics.completed = ++userStatisctics.completed;
     } else {
       userStatisctics.ended = ++userStatisctics.ended;
     }

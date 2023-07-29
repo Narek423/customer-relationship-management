@@ -14,6 +14,7 @@ type InputProps = {
   title?: string;
   inputValue?: string;
   setInputValue: Dispatch<SetStateAction<string>>;
+  options?: string[];
 };
 
 const Input: FC<InputProps> = ({
@@ -21,6 +22,7 @@ const Input: FC<InputProps> = ({
   title = '',
   inputValue,
   setInputValue,
+  options,
 }) => {
   const [focusDetecter, setFocusDetecter] = useState<boolean>(false);
   const [passwordToggle, setPasswordToggle] = useState<boolean>(true);
@@ -95,7 +97,7 @@ const Input: FC<InputProps> = ({
         {title}
       </div>
       {variant === 'avatar' && (
-        <img className={styles.input_avatar} src="/assets/girl.svg" alt="" />
+        <img className={styles.input_avatar} src="/assets/avatar.jpg" alt="" />
       )}
       {variant === 'select' ? (
         <select
@@ -109,12 +111,10 @@ const Input: FC<InputProps> = ({
           }}
           required
         >
-          <option value="" disabled hidden>
-            {' '}
-          </option>
-          <option>Gwen 5:30</option>
-          <option>Narek 4:30</option>
-          <option>Esimov 4:20</option>
+          <option value="" disabled hidden></option>
+          {options?.map((option, index) => (
+            <option key={Math.random() + index}>{option}</option>
+          ))}
         </select>
       ) : (
         <div className={'flex '}>

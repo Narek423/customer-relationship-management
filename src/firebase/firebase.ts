@@ -5,20 +5,14 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  User,
 } from 'firebase/auth';
-import {
-  getDatabase,
-  ref,
-  set,
-  get,
-  child,
-  push,
-  update,
-} from 'firebase/database';
-import { getStorage, ref as sRef, uploadBytes } from 'firebase/storage';
+import { getDatabase, ref, set } from 'firebase/database';
+import { getStorage } from 'firebase/storage';
 
+import dataRequest from '../utils/rest';
+import { BackendContactInputContact } from '@/contact-wrighting-context/intex';
 import { BackendInputTasks } from '@/tasks-wrighting-context';
+import { IContact, IContactData } from '@/types/contact-type';
 import { ITasks } from '@/types/main-task';
 import { ImageUploadObjact } from '@/user-context';
 
@@ -45,34 +39,51 @@ export async function signIn(email: string, password: string) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
-export const getUserData = (usr: User | null) => {
-  const uid = usr?.uid;
+export const writeUserContact = async (
+  data: BackendContactInputContact,
+  user: ImageUploadObjact,
+  setUserData: Dispatch<SetStateAction<ImageUploadObjact>>,
+  setContactData: Dispatch<SetStateAction<IContact | null>>
+) => {
+  data.belongsContactTo = user.uid;
+  data.avatar = './assets/avatar.jpg';
+  const newContactKey = (await createContact(data)).name;
+  set(ref(database, 'users/' + user.uid), {
+    ...user,
+    contactsId:
+      user.contactsId[0] === ''
+        ? [newContactKey]
+        : [...user.contactsId, newContactKey],
+  });
 
-  const dbRef = ref(database);
+  setUserData({
+    ...user,
+    contactsId:
+      user.contactsId[0] === ''
+        ? [newContactKey as string]
+        : [...user.contactsId, newContactKey as string],
+  });
 
-  return get(child(dbRef, 'users/' + uid));
+  dataRequest('/contacts').then(backData => {
+    setContactData({ ...(backData as IContact) });
+  });
 };
-
 export const writeUserTask = async (
   data: BackendInputTasks,
   user: ImageUploadObjact,
   setUserData: Dispatch<SetStateAction<ImageUploadObjact>>,
   setTaskData: Dispatch<SetStateAction<ITasks | null>>
 ) => {
-  const newPostKey = push(child(ref(database), 'posts')).key;
-
-  const updates = {} as { [x: string]: BackendInputTasks };
-
   data.belongsTo = user.uid;
   data.avatar = './assets/avatar.jpg';
-
-  updates['/tasks/' + newPostKey] = data;
+  const newPostKey = (await createTask(data)).name;
 
   set(ref(database, 'users/' + user.uid), {
     ...user,
     tasksId:
       user.tasksId[0] === '' ? [newPostKey] : [...user.tasksId, newPostKey],
   });
+
   setUserData({
     ...user,
     tasksId:
@@ -81,9 +92,9 @@ export const writeUserTask = async (
         : [...user.tasksId, newPostKey as string],
   });
 
-  update(ref(database), updates);
-
-  getTaskData().then(backData => setTaskData(backData.val()));
+  dataRequest('/tasks').then(backData => {
+    setTaskData({ ...(backData as ITasks) });
+  });
 };
 
 export const writeUserData = (
@@ -92,6 +103,7 @@ export const writeUserData = (
   email: string,
   uid: string,
   tasksId: string[],
+  contactsId: string[],
   avatar: string
 ) => {
   set(ref(database, 'users/' + uid), {
@@ -100,37 +112,70 @@ export const writeUserData = (
     email,
     uid,
     tasksId: tasksId[0] ? tasksId : [''],
+    contactsId: contactsId[0] ? contactsId : [''],
     avatar,
   });
 };
 
-export const getTaskData = () => {
-  const dbRef = ref(database);
+export const getAllTasks = async () => {
+  const response = await dataRequest<{
+    [x: string]: ITasks;
+  }>('/tasks');
 
-  return get(child(dbRef, 'tasks/'));
+  return response;
 };
 
-export const getUserTask = async (id: string) => {
-  const dbRef = ref(getDatabase());
-  let editedRow = await get(child(dbRef, 'users/' + id));
-  editedRow = editedRow.val();
-  return editedRow;
-};
-
-export const editTasksData = async (
-  title: any,
-  description: any,
-  id: string
-) => {
-  const dbRef = ref(getDatabase());
-  const db = getDatabase();
-
-  let editedRow = await get(child(dbRef, 'users/' + id));
-  editedRow = editedRow.val();
-
-  set(ref(db, `users/${id}`), {
-    ...editedRow,
-    title,
-    description,
+export const createTask = async (task: BackendInputTasks) => {
+  const response = await dataRequest<{ name: string }>('/tasks', {
+    method: 'POST',
+    data: task,
   });
+
+  return response;
+};
+
+export const createContact = async (contact: BackendContactInputContact) => {
+  const response = await dataRequest<{ name: string }>('/contacts', {
+    method: 'POST',
+    data: contact,
+  });
+  return response;
+};
+
+export const updateTask = async (id: string, task: ITasks) => {
+  const response = await dataRequest<{ name: string }>(`/tasks/${id}`, {
+    method: 'PUT',
+    data: task,
+  });
+
+  return response;
+};
+
+export const removeTask = async (
+  id: string,
+  setTaskData: Dispatch<SetStateAction<ITasks>>
+) => {
+  await dataRequest<null>(`/tasks/${id}`, {
+    method: 'DELETE',
+  });
+
+  dataRequest('/tasks').then(backData =>
+    setTaskData({ ...(backData as ITasks) })
+  );
+  return { message: `Task with id ${id} removed!` };
+};
+
+export const removeContact = async (id: string[]) => {
+  for (const key of id) {
+    const response = await dataRequest<IContact>(`/contacts/${key}`, {
+      method: 'DELETE',
+    });
+    return response;
+  }
+  return { message: `Contact with id ${id} removed!` };
+};
+
+export const getTaskById = async (id: string) => {
+  const response = await dataRequest<ITasks>(`/tasks/${id}`);
+  return response;
 };

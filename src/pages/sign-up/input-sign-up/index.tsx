@@ -13,6 +13,7 @@ type InputElementType = {
   variant: string;
   label: string;
   title: string;
+  options: string[];
 };
 
 type InputSignUpProps = {
@@ -44,6 +45,7 @@ const InputSignUp: FC<InputSignUpProps> = ({
         title={input.title}
         inputValue={inputValue}
         setInputValue={setInputValue}
+        options={input.options}
       />
       {inputsData.length - 1 === index && (
         <div className={styles.button}>
