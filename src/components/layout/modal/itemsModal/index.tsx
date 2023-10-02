@@ -5,7 +5,7 @@ import ItemContactStatus from '@/components/layout/navbar-items-status/item-cont
 import ItemDealStatus from '@/components/layout/navbar-items-status/item-deal-status';
 import ItemEmailStatus from '@/components/layout/navbar-items-status/item-email-status';
 import ItemTaskStatus from '@/components/layout/navbar-items-status/item-task-status';
-import { useTasksDataContext } from '@/tasks-context';
+import { useTasksDataContext } from '@/context/tasks-context';
 
 type EmailModalProps = {
   buttonName: string;
@@ -20,7 +20,7 @@ const ItemsModal: FC<EmailModalProps> = ({
   toggle,
   buttonName,
 }) => {
-  const { setFilter, filter } = useTasksDataContext();
+  const { setFilter } = useTasksDataContext();
 
   const modalContentPicker = (contentType: string) => {
     switch (contentType) {

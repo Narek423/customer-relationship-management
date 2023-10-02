@@ -2,14 +2,8 @@ import { FC, useState, useEffect } from 'react';
 
 import Button from '@/components/layout/button';
 import Input from '@/components/layout/input';
-import { useContactsDataContext } from '@/contact-context';
-import {
-  BackendContactInputContact,
-  useContactsContext,
-} from '@/contact-wrighting-context/intex';
-import { IContactData } from '@/types/contact-type';
-import { useUserContext } from '@/user-context';
-import contactsFilter from '@/utils/contacts-filter';
+import { backendContactInputData } from '@/context/contact-context';
+import { BackendContactInputContact } from '@/context/contact-context';
 
 import styles from './styles.module.scss';
 
@@ -34,16 +28,14 @@ const InputContact: FC<InputContactProps> = ({
   handleSubmitContact,
   index,
 }) => {
-  const { backendContactInputData, setBackendContactInputData } =
-    useContactsContext();
   const [inputContactValue, setInputContactValue] = useState<string>('');
 
   useEffect(() => {
-    setBackendContactInputData({
-      ...backendContactInputData,
-      [input.label]: inputContactValue,
-    });
+    (backendContactInputData as { [key: string]: string | boolean })[
+      input.label as keyof BackendContactInputContact
+    ] = inputContactValue;
   }, [inputContactValue]);
+
   return (
     <>
       <Input

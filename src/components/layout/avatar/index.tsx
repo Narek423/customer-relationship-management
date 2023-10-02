@@ -3,7 +3,7 @@ import { ChangeEvent, FC, useEffect, useState } from 'react';
 import LoadingAvatar from '@/components/layout/loading-avatar';
 import CheckIcon from '@/components/svg-icons/check-icon';
 import EditIcon from '@/components/svg-icons/edit-icon';
-import { useUserContext } from '@/user-context';
+import { useUserContext } from '@/context/user-context';
 
 import styles from './styles.module.scss';
 

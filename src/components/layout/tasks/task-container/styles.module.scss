@@ -1,0 +1,38 @@
+.main_container {
+  @apply ml-6 mr-2 h-fit w-full rounded bg-white px-4 py-4 shadow-[0px_6px_18px_rgba(0,0,0,0.06)];
+
+  hr {
+    @apply -mx-4 mb-2;
+  }
+
+  .delete_indicator {
+    @apply fixed top-4 right-11;
+  }
+
+  .button_container {
+    @apply flex justify-around;
+  }
+  .show_btn,
+  .add_item_btn {
+    @apply mt-3 flex w-fit cursor-pointer justify-center
+    text-sm font-semibold text-theme-accent-blue;
+  }
+
+  .tasks_container,
+  .tasks_container_show_more {
+    @apply max-h-[50vh] overflow-x-hidden;
+  }
+
+  .tasks_container {
+    @apply overflow-y-scroll;
+  }
+
+  .tasks_container_show_more {
+    @apply overflow-y-hidden;
+  }
+
+  .modal_full_screen {
+    @apply fixed top-0 left-0 z-50 flex min-h-screen min-w-full
+    items-center justify-center bg-theme-table-gray/50;
+  }
+}

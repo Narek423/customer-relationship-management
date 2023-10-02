@@ -1,12 +1,12 @@
 import { FC, useState } from 'react';
 
+import { menu } from '@/components/data/navbar-menu';
 import Avatar from '@/components/layout/avatar';
 import NavbarItem from '@/components/layout/navbar-items';
 import LogoutIcons from '@/components/svg-icons/logout-icons';
 import SettingIcon from '@/components/svg-icons/setting-icon';
 import ToggleSidebar from '@/components/svg-icons/toggle-sidebar-icon';
-import { menu } from '@/data/navbar-menu';
-import { useUserContext } from '@/user-context';
+import { useUserContext } from '@/context/user-context';
 
 import styles from './styles.module.scss';
 
@@ -28,16 +28,15 @@ const Navbar: FC = () => {
               <div>
                 <Avatar />
               </div>
-
               <div>
                 <div className={styles.name}>{userData.name}</div>
                 <div className={styles.lastname}> {userData['Last Name']}</div>
                 <div className={styles.email}>{userData.email}</div>
               </div>
             </div>
-            {menu.map(item => {
+            {menu.map((item, index) => {
               return (
-                <div key={Math.random()}>
+                <div key={Math.random() + index}>
                   <NavbarItem item={item} toggle={toggle} />
                 </div>
               );
@@ -77,23 +76,22 @@ const Navbar: FC = () => {
           <div className={styles.avatar_toggle}>
             <Avatar />
           </div>
-          {menu.map(item => {
+          {menu.map((item, index) => {
             return (
-              <>
+              <div key={Math.random() + index}>
                 {toggle ? (
                   <div
-                    key={item.name}
                     className={styles.image_toggle}
                     onClick={() => setToggle(!toggle)}
                   >
                     <item.icon />
                   </div>
                 ) : (
-                  <div key={Math.random()}>
+                  <div key={Math.random() - index}>
                     <NavbarItem item={item} toggle={toggle} />
                   </div>
                 )}
-              </>
+              </div>
             );
           })}
 

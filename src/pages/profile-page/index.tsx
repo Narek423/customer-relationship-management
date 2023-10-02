@@ -7,9 +7,9 @@ import LoadingSpinner from '@/components/layout/loading-spinner';
 import Navbar from '@/components/layout/navbar';
 import Search from '@/components/layout/search';
 import TasksStatisticsContent from '@/components/layout/tasks_statistics_content';
-import { ContactDataContextProvider } from '@/contact-context';
-import { ContactsContextProvider } from '@/contact-wrighting-context/intex';
-import { useUserContext } from '@/user-context';
+import { ContactDataContextProvider } from '@/context/contact-context';
+// import { ContactsContextProvider } from '@/context/contact-context';
+import { useUserContext } from '@/context/user-context';
 
 import styles from './styles.module.scss';
 
@@ -32,11 +32,7 @@ const ProfilePage: FC = () => {
         <div className={styles.search}>
           <Search placeholder="Global search" />
         </div>
-        <ContactsContextProvider>
-          <ContactDataContextProvider>
-            {!contact ? <TasksStatisticsContent /> : <Contacts />}
-          </ContactDataContextProvider>
-        </ContactsContextProvider>
+        {!contact ? <TasksStatisticsContent /> : <Contacts />}
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 import { FC } from 'react';
 
-import ChecklistTask from '../checklist-item-form/checklist-task';
+import TaskContainer from 'src/components/layout/tasks/task-container';
+
 import LineChartCustom from '../line-chart-custom';
 import PieChartCustom from '../pie-chart-custom';
-import { useTasksDataContext } from '@/tasks-context';
-import { useUserContext } from '@/user-context';
+import { useTasksDataContext } from '@/context/tasks-context';
+import { useUserContext } from '@/context/user-context';
 
 import styles from './styles.module.scss';
 
@@ -15,7 +16,7 @@ const TasksStatisticsContent: FC = () => {
   return (
     <div className={styles.content}>
       <div className={styles.taskarea_container}>
-        {userData && taskData && <ChecklistTask />}
+        {userData && taskData && <TaskContainer />}
       </div>
       <div className={styles.charts_container}>
         {userData && taskData && <LineChartCustom />}

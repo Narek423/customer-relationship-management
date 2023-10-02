@@ -1,13 +1,13 @@
-import { FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 
 import Button from '@/components/layout/button';
 import ContactItem from '@/components/layout/contacts/contactItem';
 import ContactModal from '@/components/layout/contacts/contactModal';
 import Modal from '@/components/layout/modal';
-import { useContactsDataContext } from '@/contact-context';
+import { IContactData } from '@/components/types/contact-type';
+import { useContactsDataContext } from '@/context/contact-context';
+import { useUserContext } from '@/context/user-context';
 import { removeContact } from '@/firebase/firebase';
-import { IContactData } from '@/types/contact-type';
-import { useUserContext } from '@/user-context';
 import contactsFilter from '@/utils/contacts-filter';
 
 import styles from './styles.module.scss';
@@ -15,7 +15,7 @@ const Contacts: FC = () => {
   const [addContact, setAddContact] = useState<boolean>(false);
   const { contactData, setContactData } = useContactsDataContext();
   const [userContacts, setUserContacts] = useState<IContactData[]>([]);
-  const { userData } = useUserContext();
+  const { userData, setUserData } = useUserContext();
 
   const completed = userContacts.filter(
     userContact => userContact.isDone
@@ -40,7 +40,7 @@ const Contacts: FC = () => {
     .filter(item => item.isDone)
     .map(checkItem => checkItem.uid);
 
-  const onChange = (e: any) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     if (name === 'selectAll') {
       const selectAll = userContacts.map(userContact => {
@@ -74,7 +74,7 @@ const Contacts: FC = () => {
           </Modal>
         </div>
       )}
-      <div className="flex items-center bg-[#FFFFFF]">
+      <div className={styles.title_container}>
         <div className="ml-4">
           <input
             className="cursor-pointer  text-[#109CF1] "
@@ -87,29 +87,31 @@ const Contacts: FC = () => {
             }
           />
         </div>
-        {completed > 0 ? (
-          <div className=" flex h-12 items-center ">
-            <div className="ml-8">{completed} selected</div>
-            <img
-              className="ml-4"
-              src="/assets/recycle.svg"
-              alt="recycle"
-              onClick={() => {
-                onClearCompleted();
-                removeContact(removeId);
-              }}
-            />
-          </div>
-        ) : (
-          <div className={styles.contacts_header}>
-            <div>Name</div>
-            <div>Email</div>
-            <div>Company name</div>
-            <div>Role</div>
-            <div>Forecast</div>
-            <div>Recent Activity</div>
-          </div>
-        )}
+        <div>
+          {completed > 0 ? (
+            <div className=" flex h-12 items-center ">
+              <div>{completed} selected</div>
+              <img
+                className="ml-4 cursor-pointer"
+                src="/assets/recycle.svg"
+                alt="recycle"
+                onClick={() => {
+                  onClearCompleted();
+                  removeContact(removeId, userData, setUserData);
+                }}
+              />
+            </div>
+          ) : (
+            <div className={styles.contacts_header}>
+              <div>Name</div>
+              <div>Email</div>
+              <div>Company name</div>
+              <div>Role</div>
+              <div>Forecast</div>
+              <div>Recent Activity</div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div>
@@ -117,12 +119,7 @@ const Contacts: FC = () => {
         {userContacts.map(userContact => {
           return (
             <div key={Math.random()}>
-              <ContactItem
-                userContact={userContact}
-                name={userContact.Name}
-                checked={userContact.isDone || false}
-                onChange={onChange}
-              />
+              <ContactItem userContact={userContact} onChange={onChange} />
             </div>
           );
         })}

@@ -1,10 +1,12 @@
 type UsersTasks = {
-  ['Due date']: string;
+  ['Full name']: string;
   Label: string;
-  Name: string;
-  Status: string;
+  ['Due date']: string;
   Type: string;
+  Status: string;
   belongsTo: string;
+  uid: string;
+  avatar: string;
 }[];
 
 const daysOfTheWeek = (userTasks: UsersTasks) => {
@@ -21,8 +23,9 @@ const daysOfTheWeek = (userTasks: UsersTasks) => {
       .slice(4, 10);
 
     let num = 0;
-    const chart: any = userTasks.map(userTask => {
+    const chart = userTasks.map(userTask => {
       const utMonth = userTask?.['Due date'].slice(5, 7);
+
       const utDay = userTask?.['Due date'].slice(8, 10);
       const monthMonth = monthBack.slice(3, 5);
       const monthDay = monthBack.slice(0, 2);
@@ -36,6 +39,7 @@ const daysOfTheWeek = (userTasks: UsersTasks) => {
         return 0;
       }
     });
+
     const uv = Math.max.apply(null, chart);
     week.push({ name: monthFront, uv: uv < 0 ? 0 : uv });
   }

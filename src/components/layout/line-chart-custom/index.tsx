@@ -9,9 +9,9 @@ const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), {
 });
 
 import ChartNavbar from '../chart-navbar';
-import EllipseIconThik from '@/icons-for-task/ellipse-icon-thik';
-import { useTasksDataContext } from '@/tasks-context';
-import { useUserContext } from '@/user-context';
+import EllipseIconThik from '@/components/svg-icons/icons-for-task/ellipse-icon-thik';
+import { useTasksDataContext } from '@/context/tasks-context';
+import { useUserContext } from '@/context/user-context';
 import daysOfTheWeek from '@/utils/chart-week-data';
 import userTasksFilter from '@/utils/user-tasks-filter';
 
@@ -23,7 +23,7 @@ const LineChartCustom: FC = () => {
 
   const userTasks = userTasksFilter(userData.tasksId, taskData);
 
-  const weekData = daysOfTheWeek(userTasks as any);
+  const weekData = daysOfTheWeek(userTasks);
 
   return (
     <div className={styles.charts_line}>

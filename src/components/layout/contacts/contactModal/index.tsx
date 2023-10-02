@@ -1,14 +1,11 @@
 import { FC, useState } from 'react';
 
+import { contactInputData } from 'src/components/data/contact-Input-Data';
+
 import InputContact from '@/components/layout/contacts/input-contact';
-import { useContactsDataContext } from '@/contact-context';
-import { contactInputData } from '@/contact-Input-Data';
-import {
-  BackendContactInputContact,
-  ContactsContextProvider,
-  useContactsContext,
-} from '@/contact-wrighting-context/intex';
-import { useUserContext } from '@/user-context';
+import { useContactsDataContext } from '@/context/contact-context';
+import { BackendContactInputContact } from '@/context/contact-context';
+import { useUserContext } from '@/context/user-context';
 
 import styles from './styles.module.scss';
 
@@ -17,8 +14,7 @@ type ContactModalProps = {
 };
 const ContactModal: FC<ContactModalProps> = ({ onClose }) => {
   const [err, setErr] = useState<string>('');
-  const { writeNewContact } = useContactsContext();
-  const { setContactData } = useContactsDataContext();
+  const { writeNewContact, setContactData } = useContactsDataContext();
   const { userData, setUserData } = useUserContext();
 
   const handleSubmitContact = async (
@@ -49,20 +45,18 @@ const ContactModal: FC<ContactModalProps> = ({ onClose }) => {
       </div>
 
       <div className={styles.inputs_container}>
-        <ContactsContextProvider>
-          {contactInputData.map((input, index) => {
-            return (
-              <div key={Math.random()} className={styles.inputs}>
-                <InputContact
-                  input={input}
-                  inputsData={contactInputData}
-                  index={index}
-                  handleSubmitContact={handleSubmitContact}
-                />
-              </div>
-            );
-          })}
-        </ContactsContextProvider>
+        {contactInputData.map((input, index) => {
+          return (
+            <div key={Math.random()} className={styles.inputs}>
+              <InputContact
+                input={input}
+                inputsData={contactInputData}
+                index={index}
+                handleSubmitContact={handleSubmitContact}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

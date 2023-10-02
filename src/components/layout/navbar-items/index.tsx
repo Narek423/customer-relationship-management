@@ -4,8 +4,8 @@ import { Dashboard } from '@mui/icons-material';
 
 import ItemsModal from '@/components/layout/modal/itemsModal';
 import styles from '@/components/layout/navbar/styles.module.scss';
-import { INavbarMenu } from '@/types/i-navbar-menu';
-import { useUserContext } from '@/user-context';
+import { INavbarMenu } from '@/components/types/i-navbar-menu';
+import { useUserContext } from '@/context/user-context';
 
 type NavbarItemProps = {
   toggle: boolean;

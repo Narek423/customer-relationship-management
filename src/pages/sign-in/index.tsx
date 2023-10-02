@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Button from '../../components/layout/button';
 import Input from '../../components/layout/input';
 import LoadingSpinner from '@/components/layout/loading-spinner';
-import { useUserContext } from '@/user-context';
+import { useUserContext } from '@/context/user-context';
 
 import styles from './styles.module.scss';
 const SignIn: FC = () => {

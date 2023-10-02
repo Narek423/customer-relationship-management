@@ -1,10 +1,12 @@
 type UsersTasks = {
-  ['Due date']: string;
+  ['Full name']: string;
   Label: string;
-  Name: string;
-  Status: string;
+  ['Due date']: string;
   Type: string;
+  Status: string;
   belongsTo: string;
+  uid: string;
+  avatar: string;
 }[];
 
 const getTasksStatistics = (userTasks: UsersTasks) => {

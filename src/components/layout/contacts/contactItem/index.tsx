@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
-import { IContactData } from '@/types/contact-type';
+import { IContactData } from '@/components/types/contact-type';
 
 import styles from './styles.module.scss';
 
 type ContactItemProps = {
-  onChange: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   userContact: IContactData;
 };
 const ContactItem: FC<ContactItemProps> = ({ onChange, userContact }) => {

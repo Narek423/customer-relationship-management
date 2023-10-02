@@ -1,4 +1,4 @@
-import { IContactData } from '@/types/contact-type';
+import { IContactData } from '@/components/types/contact-type';
 
 const contactsFilter = (
   contactId: string[],

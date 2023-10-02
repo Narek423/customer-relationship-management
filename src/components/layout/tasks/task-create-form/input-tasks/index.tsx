@@ -2,7 +2,8 @@ import { FC, useState, useEffect } from 'react';
 
 import Button from '@/components/layout/button';
 import Input from '@/components/layout/input';
-import { BackendInputDataType, backendInputData } from '@/context/user-context';
+import { BackendInputTasks } from '@/context/tasks-context';
+import { backendInputData } from '@/context/tasks-context';
 
 import styles from './styles.module.scss';
 
@@ -10,17 +11,17 @@ type InputElementType = {
   variant: string;
   label: string;
   title: string;
-  options: string[];
+  options?: string[];
 };
 
-type InputSignUpProps = {
+type InputTasksProps = {
   input: InputElementType;
   inputsData: InputElementType[];
   index: number;
-  handleSubmit: (backendInputData: BackendInputDataType) => void;
+  handleSubmit: (backendInputData: BackendInputTasks) => void;
 };
 
-const InputSignUp: FC<InputSignUpProps> = ({
+const InputTasks: FC<InputTasksProps> = ({
   input,
   inputsData,
   handleSubmit,
@@ -30,7 +31,7 @@ const InputSignUp: FC<InputSignUpProps> = ({
 
   useEffect(() => {
     (backendInputData as { [key: string]: string | boolean })[
-      input.label as keyof BackendInputDataType
+      input.label as keyof BackendInputTasks
     ] = inputValue;
   }, [inputValue]);
 
@@ -49,7 +50,7 @@ const InputSignUp: FC<InputSignUpProps> = ({
             variant="contained"
             onClick={() => handleSubmit(backendInputData)}
           >
-            Sign up
+            Create task
           </Button>
         </div>
       )}
@@ -57,4 +58,4 @@ const InputSignUp: FC<InputSignUpProps> = ({
   );
 };
 
-export default InputSignUp;
+export default InputTasks;

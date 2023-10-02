@@ -1,0 +1,35 @@
+.container {
+  @apply my-1 flex h-32 w-full flex-col;
+
+  .date_title {
+    @apply mt-3 flex font-poppins font-medium text-theme-black;
+  }
+
+  .week_days {
+    @apply mt-6 flex justify-between;
+
+    .day_container {
+      @apply flex flex-col items-center gap-2;
+
+      .week_day {
+        @apply text-center font-poppins text-[13px] font-medium leading-5 tracking-wide text-theme-dark-blue-text/50;
+
+        &.blue {
+          @apply text-theme-accent-blue opacity-100;
+        }
+      }
+      .date {
+        @apply flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-center font-poppins
+        text-[12px] font-normal leading-5 tracking-wide text-[#4c5862] hover:bg-theme-dark-blue-text/20;
+
+        &.blue {
+          @apply text-theme-accent-blue opacity-100;
+        }
+
+        &.clicked {
+          @apply bg-theme-accent-blue text-white;
+        }
+      }
+    }
+  }
+}

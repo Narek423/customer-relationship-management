@@ -1,0 +1,19 @@
+.main_container {
+  @apply relative flex flex-col rounded bg-white py-8 px-20 shadow-lg shadow-[#8a8888];
+
+  .navbar {
+    @apply -mt-2 flex items-center justify-center;
+
+    .title {
+      @apply font-[monospace] text-4xl font-bold text-theme-dark-blue-text;
+    }
+
+    .icon_X {
+      @apply absolute right-4 top-4 w-4 cursor-pointer;
+    }
+  }
+
+  .inputs_container {
+    @apply my-8 flex flex-col items-center justify-center gap-8;
+  }
+}

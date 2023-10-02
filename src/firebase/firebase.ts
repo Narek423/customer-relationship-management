@@ -10,11 +10,12 @@ import { getDatabase, ref, set } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
 import dataRequest from '../utils/rest';
-import { BackendContactInputContact } from '@/contact-wrighting-context/intex';
-import { BackendInputTasks } from '@/tasks-wrighting-context';
-import { IContact, IContactData } from '@/types/contact-type';
-import { ITasks } from '@/types/main-task';
-import { ImageUploadObjact } from '@/user-context';
+import { IContact, IContactData } from '@/components/types/contact-type';
+import { IEditData } from '@/components/types/edit-data-type';
+import { ITaskData, ITasks } from '@/components/types/main-task';
+import { BackendContactInputContact } from '@/context/contact-context';
+import { BackendInputTasks } from '@/context/tasks-context';
+import { ImageUploadObjact } from '@/context/user-context';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAfrgtmBXh4cUUH3FBqR5deMUd0MMbM2bU',
@@ -43,7 +44,7 @@ export const writeUserContact = async (
   data: BackendContactInputContact,
   user: ImageUploadObjact,
   setUserData: Dispatch<SetStateAction<ImageUploadObjact>>,
-  setContactData: Dispatch<SetStateAction<IContact | null>>
+  setContactData: Dispatch<SetStateAction<IContactData[]>>
 ) => {
   data.belongsContactTo = user.uid;
   data.avatar = './assets/avatar.jpg';
@@ -65,14 +66,13 @@ export const writeUserContact = async (
   });
 
   dataRequest('/contacts').then(backData => {
-    setContactData({ ...(backData as IContact) });
+    setContactData({ ...(backData as IContactData[]) });
   });
 };
 export const writeUserTask = async (
   data: BackendInputTasks,
   user: ImageUploadObjact,
-  setUserData: Dispatch<SetStateAction<ImageUploadObjact>>,
-  setTaskData: Dispatch<SetStateAction<ITasks | null>>
+  setUserData: Dispatch<SetStateAction<ImageUploadObjact>>
 ) => {
   data.belongsTo = user.uid;
   data.avatar = './assets/avatar.jpg';
@@ -90,10 +90,6 @@ export const writeUserTask = async (
       user.tasksId[0] === ''
         ? [newPostKey as string]
         : [...user.tasksId, newPostKey as string],
-  });
-
-  dataRequest('/tasks').then(backData => {
-    setTaskData({ ...(backData as ITasks) });
   });
 };
 
@@ -142,7 +138,7 @@ export const createContact = async (contact: BackendContactInputContact) => {
   return response;
 };
 
-export const updateTask = async (id: string, task: ITasks) => {
+export const updateTask = async (id: string, task: ITaskData) => {
   const response = await dataRequest<{ name: string }>(`/tasks/${id}`, {
     method: 'PUT',
     data: task,
@@ -151,9 +147,23 @@ export const updateTask = async (id: string, task: ITasks) => {
   return response;
 };
 
+export const updateTaskData = async (
+  id: string,
+  updatedCheckItem: IEditData
+) => {
+  const response = await dataRequest<{ name: string }>(`/tasks/${id}`, {
+    method: 'PUT',
+    data: updatedCheckItem,
+  });
+
+  return response;
+};
+
 export const removeTask = async (
   id: string,
-  setTaskData: Dispatch<SetStateAction<ITasks>>
+  setTaskData: Dispatch<SetStateAction<ITasks>>,
+  userData: ImageUploadObjact,
+  setUserData: Dispatch<SetStateAction<ImageUploadObjact>>
 ) => {
   await dataRequest<null>(`/tasks/${id}`, {
     method: 'DELETE',
@@ -162,16 +172,49 @@ export const removeTask = async (
   dataRequest('/tasks').then(backData =>
     setTaskData({ ...(backData as ITasks) })
   );
+
+  const checkedTaskId =
+    userData.tasksId.filter(backId => id !== backId).length === 0
+      ? ['']
+      : userData.tasksId.filter(backId => id !== backId);
+
+  const updatedUserData = {
+    ...userData,
+    tasksId: checkedTaskId,
+  };
+
+  set(ref(database, 'users/' + userData.uid), updatedUserData);
+  setUserData(updatedUserData);
+
   return { message: `Task with id ${id} removed!` };
 };
 
-export const removeContact = async (id: string[]) => {
+export const removeContact = async (
+  id: string[],
+  userData: ImageUploadObjact,
+  setUserData: Dispatch<SetStateAction<ImageUploadObjact>>
+) => {
+  let checkedContactId = userData.contactsId;
+
   for (const key of id) {
-    const response = await dataRequest<IContact>(`/contacts/${key}`, {
+    await dataRequest<IContact>(`/contacts/${key}`, {
       method: 'DELETE',
     });
-    return response;
+
+    checkedContactId =
+      checkedContactId.filter(backId => key !== backId).length === 0
+        ? ['']
+        : checkedContactId.filter(backId => key !== backId);
   }
+
+  const updatedUserData = {
+    ...userData,
+    contactsId: checkedContactId,
+  };
+
+  set(ref(database, 'users/' + userData.uid), updatedUserData);
+  setUserData(updatedUserData);
+
   return { message: `Contact with id ${id} removed!` };
 };
 

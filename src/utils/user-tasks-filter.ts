@@ -1,4 +1,6 @@
-const userTasksFilter = (tasksId: string[], tasks: any) => {
+import { ITasks } from '@/components/types/main-task';
+
+const userTasksFilter = (tasksId: string[], tasks: ITasks) => {
   const filteredUserTasks = [];
 
   for (const key in tasks) {

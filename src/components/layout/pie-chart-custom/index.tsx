@@ -4,9 +4,9 @@ import dynamic from 'next/dynamic';
 import { Pie, Cell } from 'recharts';
 
 import ChartNavbar from '../chart-navbar';
-import EllipseIconThik from '@/icons-for-task/ellipse-icon-thik';
-import { ITasks } from '@/types/main-task';
-import { ImageUploadObjact } from '@/user-context';
+import EllipseIconThik from '@/components/svg-icons/icons-for-task/ellipse-icon-thik';
+import { ITasks } from '@/components/types/main-task';
+import { ImageUploadObjact } from '@/context/user-context';
 import getTasksStatistics from '@/utils/get-tasks-statistics';
 import userTasksFilter from '@/utils/user-tasks-filter';
 
@@ -18,14 +18,12 @@ const PieChart = dynamic(() => import('recharts').then(mod => mod.PieChart), {
 });
 
 type PieChartCustomProps = {
-  taskData: ITasks | null;
+  taskData: ITasks;
   userData: ImageUploadObjact;
 };
-
 const PieChartCustom: FC<PieChartCustomProps> = ({ taskData, userData }) => {
   const userTasks = userTasksFilter(userData.tasksId, taskData);
-
-  const tasksStatistics = getTasksStatistics(userTasks as any);
+  const tasksStatistics = getTasksStatistics(userTasks);
 
   const data1 = [
     { name: 'Active', value: tasksStatistics.active },
@@ -52,7 +50,7 @@ const PieChartCustom: FC<PieChartCustomProps> = ({ taskData, userData }) => {
         className={`${styles.percent} ${
           completedPercent > 9 ? styles.high_percent : ''
         } ${completedPercent > 99 ? styles.hundred_percent : ''}`}
-      >{`${completedPercent || 0 + '%'}`}</div>
+      >{`${(completedPercent || 0) + '%'}`}</div>
       <ChartNavbar title={'Tasks'} period={'This month'} />
       <PieChart width={500} height={230}>
         <Pie

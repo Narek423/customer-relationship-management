@@ -1,18 +1,14 @@
 import { FC, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
+import { inputsData } from 'src/components/data/input-data';
 
-import avatar from '@/components/layout/avatar';
 import Button from '@/components/layout/button';
 import LoadingSpinner from '@/components/layout/loading-spinner';
+import { useUserContext } from '@/context/user-context';
+import { BackendInputDataType } from '@/context/user-context';
 import { writeUserData } from '@/firebase/firebase';
-import { inputsData } from '@/input-data';
 import InputSignUp from '@/pages/sign-up/input-sign-up';
-import { useUserContext } from '@/user-context';
-import {
-  BackendInputDataType,
-  UserSignupContextProvider,
-} from '@/user-signup-context';
 
 import styles from './styles.module.scss';
 
@@ -73,20 +69,18 @@ const SignUp: FC<SignUpProps> = () => {
             Sign<span>up</span>
           </div>
           {err && <div className={styles.error}>{err}</div>}
-          <UserSignupContextProvider>
-            {inputsData.map((input, index) => {
-              return (
-                <div key={Math.random()} className={styles.inputs}>
-                  <InputSignUp
-                    input={input}
-                    inputsData={inputsData}
-                    index={index}
-                    handleSubmit={handleSubmit}
-                  />
-                </div>
-              );
-            })}
-          </UserSignupContextProvider>
+          {inputsData.map((input, index) => {
+            return (
+              <div key={Math.random()} className={styles.inputs}>
+                <InputSignUp
+                  input={input}
+                  inputsData={inputsData}
+                  index={index}
+                  handleSubmit={handleSubmit}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

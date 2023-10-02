@@ -2,10 +2,10 @@
   @apply grid bg-[#F5F6F8] p-6;
 
   .taskarea_container {
-    @apply col-start-1 col-end-4 row-start-1 row-end-[12] flex justify-center;
+    @apply col-start-1 col-end-8 row-start-1 row-end-[12] flex justify-center;
   }
 
   .charts_container {
-    @apply col-start-4 col-end-8 row-start-1 row-end-[12] flex flex-col items-center justify-between;
+    @apply col-start-8 col-end-8 row-start-1 row-end-[12] flex flex-col items-center justify-between;
   }
 }
